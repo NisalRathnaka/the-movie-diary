@@ -259,3 +259,59 @@ textarea.form-control {
     padding: 20px 15px;
   }
 }
+/* Dark Theme Overrides for CKEditor 5 */
+.ck.ck-editor__main>.ck-editor__editable {
+  background-color: var(--bg-main) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+  min-height: 250px;
+}
+
+.ck.ck-editor__main>.ck-editor__editable:focus {
+  border-color: var(--accent-red) !important;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2) !important;
+}
+
+.ck.ck-toolbar {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ck.ck-toolbar .ck-button,
+.ck.ck-toolbar .ck-dropdown__button {
+  color: var(--text-primary) !important;
+}
+
+.ck.ck-toolbar .ck-button:hover,
+.ck.ck-toolbar .ck-button.ck-on {
+  background-color: var(--bg-card-hover) !important;
+  color: var(--accent-red) !important;
+}
+
+.ck.ck-list {
+  background-color: var(--bg-card) !important;
+}
+
+.ck.ck-list__item .ck-button {
+  color: var(--text-primary) !important;
+}
+
+.ck.ck-list__item .ck-button:hover {
+  background-color: var(--bg-card-hover) !important;
+}
+
+/* Styled Form Labels with Inline SVG Icons */
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.form-group label svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--accent-red);
+}

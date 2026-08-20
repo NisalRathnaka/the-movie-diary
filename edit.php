@@ -125,6 +125,83 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Entry - The Movie Diary 🎬</title>
     <link rel="stylesheet" href="style.css?v=1.1">
+
+    <!-- CKEditor 5 CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
+    <style>
+        /* Form Label & Icon Layout */
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--text-primary, #ffffff);
+            margin-bottom: 8px;
+        }
+
+        .form-group label svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--accent-red, #e50914);
+            flex-shrink: 0;
+        }
+
+        /* Dark Theme Styling for CKEditor 5 */
+        .ck.ck-editor__main > .ck-editor__editable {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+            border-color: #333333 !important;
+            min-height: 250px;
+            border-bottom-left-radius: var(--radius, 8px) !important;
+            border-bottom-right-radius: var(--radius, 8px) !important;
+        }
+
+        .ck.ck-editor__main > .ck-editor__editable:focus {
+            border-color: var(--accent-red, #e50914) !important;
+            box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2) !important;
+        }
+
+        .ck.ck-toolbar {
+            background-color: #1a1a1a !important;
+            border-color: #333333 !important;
+            border-top-left-radius: var(--radius, 8px) !important;
+            border-top-right-radius: var(--radius, 8px) !important;
+        }
+
+        .ck.ck-toolbar .ck-button,
+        .ck.ck-toolbar .ck-dropdown__button {
+            color: #e0e0e0 !important;
+        }
+
+        .ck.ck-toolbar .ck-button:hover,
+        .ck.ck-toolbar .ck-button.ck-on {
+            background-color: #2a2a2a !important;
+            color: var(--accent-red, #e50914) !important;
+        }
+
+        .ck.ck-toolbar .ck-separator {
+            background-color: #333333 !important;
+        }
+
+        /* Dropdown Menus */
+        .ck.ck-reset_all, .ck.ck-reset_all * {
+            color: #121212;
+        }
+        
+        .ck.ck-list {
+            background-color: #1a1a1a !important;
+        }
+
+        .ck.ck-list__item .ck-button {
+            color: #e0e0e0 !important;
+        }
+
+        .ck.ck-list__item .ck-button:hover {
+            background-color: #2a2a2a !important;
+            color: var(--accent-red, #e50914) !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -152,8 +229,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <form method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="title">Movie/Topic Title</label>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="title">
+                        <svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4h-2l2 4H9L7 4H5L3 8v12h18V4h-3z"/></svg>
+                        Movie / Topic Title
+                    </label>
                     <input
                         type="text"
                         id="title"
@@ -164,8 +244,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     >
                 </div>
 
-                <div class="form-group">
-                    <label for="image">Movie Poster / Cover Image (Upload New Image to Replace)</label>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="image">
+                        <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                        Movie Poster / Cover Image (Upload New Image to Replace)
+                    </label>
                     <?php if (!empty($blog['image_url'])): ?>
                         <div style="margin-bottom: 10px;">
                             <img src="<?php echo htmlspecialchars($blog['image_url']); ?>" alt="Current Image" style="max-height: 120px; border-radius: 6px; display: block; margin-bottom: 5px;">
@@ -181,18 +264,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     >
                 </div>
 
-                <div class="form-group">
-                    <label for="content">Review / Blog Content</label>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="content">
+                        <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                        Review / Blog Content
+                    </label>
+                    <!-- CKEditor replaces this textarea, initialized with existing HTML content -->
                     <textarea
                         id="content"
                         name="content"
                         class="form-control"
-                        rows="12"
-                        required
                     ><?php echo htmlspecialchars($blog["content"]); ?></textarea>
                 </div>
 
-                <div style="display: flex; gap: 15px; align-items: center; margin-top: 20px;">
+                <div style="display: flex; gap: 15px; align-items: center; margin-top: 25px;">
                     <button type="submit" class="btn btn-primary">
                         Update Entry
                     </button>
@@ -202,10 +287,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </form>
         </div>
-
-        
     </main>
+
     <?php include 'includes/footer.php'; ?>
+
+    <!-- Initialize CKEditor -->
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#content'), {
+                toolbar: [
+                    'heading', '|',
+                    'bold', 'italic', 'underline', 'strikethrough', '|',
+                    'bulletedList', 'numberedList', 'blockQuote', '|',
+                    'undo', 'redo'
+                ]
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 
 </body>
 

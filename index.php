@@ -73,9 +73,15 @@ if (!$result) {
                             <div class="card-meta">
                                 By <strong><?php echo htmlspecialchars($blog["username"] ?? "Anonymous"); ?></strong> • <?php echo date('M d, Y', strtotime($blog["created_at"])); ?>
                             </div>
+                            
+                            <!-- Strip HTML tags before truncating to plain text for clean card previews -->
                             <p class="card-excerpt">
-                                <?php echo htmlspecialchars(substr($blog["content"], 0, 120)); ?>...
+                                <?php 
+                                    $plain_text = strip_tags($blog["content"]);
+                                    echo htmlspecialchars(substr($plain_text, 0, 120)) . '...'; 
+                                ?>
                             </p>
+                            
                             <div style="margin-top: auto; padding-top: 10px;">
                                 <a href="view.php?id=<?php echo urlencode($blog["id"]); ?>" style="color: var(--accent-red); font-weight: 600;">
                                     Read Diary Entry →
