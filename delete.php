@@ -32,7 +32,7 @@ $blog_id = (int)$_POST["id"];
 $user_id = (int)$_SESSION["user_id"];
 
 // 5. Fetch the blog first to check ownership and retrieve image path
-$fetch_sql = "SELECT image_url FROM blogPost WHERE id = ? AND user_id = ?";
+$fetch_sql = "SELECT image_url FROM blogpost WHERE id = ? AND user_id = ?";
 $fetch_stmt = mysqli_prepare($conn, $fetch_sql);
 mysqli_stmt_bind_param($fetch_stmt, "ii", $blog_id, $user_id);
 mysqli_stmt_execute($fetch_stmt);
@@ -44,7 +44,7 @@ if (mysqli_num_rows($result) === 1) {
     mysqli_stmt_close($fetch_stmt);
 
     // 6. Delete the record from database
-    $delete_sql = "DELETE FROM blogPost WHERE id = ? AND user_id = ?";
+    $delete_sql = "DELETE FROM blogpost WHERE id = ? AND user_id = ?";
     $delete_stmt = mysqli_prepare($conn, $delete_sql);
     mysqli_stmt_bind_param($delete_stmt, "ii", $blog_id, $user_id);
 

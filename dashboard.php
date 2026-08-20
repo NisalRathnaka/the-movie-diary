@@ -1,4 +1,10 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+mysqli_report(MYSQLI_REPORT_OFF);
+
 session_start();
 include "includes/db.php";
 
@@ -16,11 +22,16 @@ if (empty($_SESSION['csrf_token'])) {
 $user_id = (int)$_SESSION["user_id"];
 
 // Get blogs belonging to the logged-in user
-$sql = "SELECT * FROM blogPost
+$sql = "SELECT * FROM blogpost
         WHERE user_id = ?
         ORDER BY created_at DESC";
 
 $stmt = mysqli_prepare($conn, $sql);
+
+if (!$stmt) {
+    die("Query Preparation Failed: " . mysqli_error($conn));
+}
+
 mysqli_stmt_bind_param($stmt, "i", $user_id);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -33,7 +44,7 @@ $result = mysqli_stmt_get_result($stmt);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - The Movie Diary 🎬</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
 </head>
 
 <body>

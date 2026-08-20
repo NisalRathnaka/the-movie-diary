@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($title) || empty($content)) {
             $message = "Title and content cannot be empty.";
         } else {
-            $sql = "INSERT INTO blogPost (user_id, title, content, image_url) VALUES (?, ?, ?, ?)";
+            $sql = "INSERT INTO blogpost (user_id, title, content, image_url) VALUES (?, ?, ?, ?)";
             $stmt = mysqli_prepare($conn, $sql);
 
             if ($stmt) {
@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Entry - The Movie Diary 🎬</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
 </head>
 
 <body>

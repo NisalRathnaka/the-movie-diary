@@ -19,7 +19,7 @@ $user_id = $_SESSION["user_id"];
 $message = "";
 
 // Get the blog and make sure it belongs to the logged-in user
-$sql = "SELECT * FROM blogPost WHERE id = ? AND user_id = ?";
+$sql = "SELECT * FROM blogpost WHERE id = ? AND user_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "ii", $blog_id, $user_id);
 mysqli_stmt_execute($stmt);
@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($title) || empty($content)) {
             $message = "Title and content cannot be empty.";
         } else {
-            $sql = "UPDATE blogPost 
+            $sql = "UPDATE blogpost 
                     SET title = ?, content = ?, image_url = ?
                     WHERE id = ? AND user_id = ?";
 
@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Entry - The Movie Diary 🎬</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
 </head>
 
 <body>

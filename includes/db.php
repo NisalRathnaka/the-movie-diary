@@ -1,6 +1,6 @@
 <?php
 
-// Function to parse .env file line-by-line
+// Function to parse .env file line-by-line locally
 function loadEnv($path) {
     if (!file_exists($path)) {
         return false;
@@ -13,23 +13,25 @@ function loadEnv($path) {
     }
 }
 
-// Load .env from root directory
+// Try loading local .env
 loadEnv(__DIR__ . '/../.env');
 
-// Fallback to live hosting credentials if .env is absent
+// Set connection details
 $host     = $_ENV['DB_HOST'] ?? 'sql306.infinityfree.com';
 $username = $_ENV['DB_USER'] ?? 'if0_42623541';
-$password = $_ENV['DB_PASS'] ?? 'Nisal2005163';
+$password = $_ENV['DB_PASS'] ?? 'Nisal2005163'; // Put your live password here
 $database = $_ENV['DB_NAME'] ?? 'if0_42623541_blog_app';
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+// Disable strict exception throwing to avoid 500 crashes
+mysqli_report(MYSQLI_REPORT_OFF);
 
-try {
-    $conn = mysqli_connect($host, $username, $password, $database);
-    mysqli_set_charset($conn, "utf8mb4");
-} catch (mysqli_sql_exception $e) {
-    error_log("Database connection failure: " . $e->getMessage());
-    die("Database connection failed. Please try again later.");
+// Attempt database connection
+$conn = @mysqli_connect($host, $username, $password, $database);
+
+if (!$conn) {
+    die("Database Connection Error: " . mysqli_connect_error());
 }
+
+mysqli_set_charset($conn, "utf8mb4");
 
 ?>

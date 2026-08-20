@@ -16,10 +16,10 @@ if (!isset($_GET["id"]) || !filter_var($_GET["id"], FILTER_VALIDATE_INT)) {
 $id = (int)$_GET["id"];
 
 // Get the blog post with author username
-$sql = "SELECT blogPost.*, user.username
-        FROM blogPost
-        JOIN user ON blogPost.user_id = user.id
-        WHERE blogPost.id = ?";
+$sql = "SELECT blogpost.*, user.username
+        FROM blogpost
+        JOIN user ON blogpost.user_id = user.id
+        WHERE blogpost.id = ?";
 
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
@@ -44,7 +44,7 @@ mysqli_stmt_close($stmt);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($blog["title"]); ?> - The Movie Diary 🎬</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
 </head>
 
 <body>

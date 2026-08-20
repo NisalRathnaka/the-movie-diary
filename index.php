@@ -1,16 +1,24 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include "includes/db.php";
 
-// Get all blog posts
-$sql = "SELECT blogPost.*, user.username
-        FROM blogPost
-        JOIN user ON blogPost.user_id = user.id
-        ORDER BY blogPost.created_at DESC";
+// Fetch posts joined with users table to get the username
+$sql = "SELECT blogpost.*, user.username 
+        FROM blogpost 
+        LEFT JOIN user ON blogpost.user_id = user.id 
+        ORDER BY blogpost.created_at DESC";
 
 $result = mysqli_query($conn, $sql);
-?>
 
+if (!$result) {
+    die("Database Error: " . mysqli_error($conn));
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +26,7 @@ $result = mysqli_query($conn, $sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Movie Diary 🎬 - Home</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
 </head>
 
 <body>
@@ -58,18 +66,18 @@ $result = mysqli_query($conn, $sql);
                         
                         <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column;">
                             <h2 class="card-title">
-                                <a href="view.php?id=<?php echo $blog["id"]; ?>">
+                                <a href="view.php?id=<?php echo urlencode($blog["id"]); ?>">
                                     <?php echo htmlspecialchars($blog["title"]); ?>
                                 </a>
                             </h2>
                             <div class="card-meta">
-                                By <strong><?php echo htmlspecialchars($blog["username"]); ?></strong> • <?php echo date('M d, Y', strtotime($blog["created_at"])); ?>
+                                By <strong><?php echo htmlspecialchars($blog["username"] ?? "Anonymous"); ?></strong> • <?php echo date('M d, Y', strtotime($blog["created_at"])); ?>
                             </div>
                             <p class="card-excerpt">
                                 <?php echo htmlspecialchars(substr($blog["content"], 0, 120)); ?>...
                             </p>
                             <div style="margin-top: auto; padding-top: 10px;">
-                                <a href="view.php?id=<?php echo $blog["id"]; ?>" style="color: var(--accent-red); font-weight: 600;">
+                                <a href="view.php?id=<?php echo urlencode($blog["id"]); ?>" style="color: var(--accent-red); font-weight: 600;">
                                     Read Diary Entry →
                                 </a>
                             </div>
@@ -81,9 +89,9 @@ $result = mysqli_query($conn, $sql);
             <p style="text-align: center; color: var(--text-secondary); margin-top: 40px;">No blogs have been published yet.</p>
         <?php endif; ?>
 
-    
     </main>
-     <?php include 'includes/footer.php'; ?>   
+
+    <?php include 'includes/footer.php'; ?>   
 
 </body>
 
