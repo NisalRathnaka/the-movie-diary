@@ -80,7 +80,10 @@ $result = mysqli_query($conn, $sql);
         <?php else: ?>
             <p style="text-align: center; color: var(--text-secondary); margin-top: 40px;">No blogs have been published yet.</p>
         <?php endif; ?>
+
+    
     </main>
+     <?php include 'includes/footer.php'; ?>   
 
 </body>
 

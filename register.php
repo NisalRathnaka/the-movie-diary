@@ -138,7 +138,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Already have an account? <a href="login.php" style="color: var(--accent-red, #e63946); font-weight: 600;">Login here</a>
             </p>
         </div>
+
+       
     </main>
+     <?php include 'includes/footer.php'; ?>
 
 </body>
 

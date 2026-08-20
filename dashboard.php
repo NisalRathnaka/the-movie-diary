@@ -113,7 +113,10 @@ $result = mysqli_stmt_get_result($stmt);
         <?php endif; ?>
 
         <?php mysqli_stmt_close($stmt); ?>
+
+        
     </main>
+    <?php include 'includes/footer.php'; ?>
 
 </body>
 

@@ -108,6 +108,8 @@ mysqli_stmt_close($stmt);
                 <?php endif; ?>
             </div>
         </article>
+
+        <?php include 'includes/footer.php'; ?>
     </main>
 
 </body>
