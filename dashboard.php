@@ -96,8 +96,17 @@ $result = mysqli_stmt_get_result($stmt);
                                 </div>
                                 <p class="card-excerpt">
                                     <?php 
-                                        $excerpt = htmlspecialchars($blog["content"]);
-                                        echo strlen($excerpt) > 100 ? substr($excerpt, 0, 100) . '...' : $excerpt;
+                                        // 1. Strip out HTML tags like <p>, <strong>, <i>
+                                        $clean_text = strip_tags($blog["content"]);
+                                        
+                                        // 2. Decode entities like &amp; back to &
+                                        $clean_text = html_entity_decode($clean_text, ENT_QUOTES, 'UTF-8');
+                                        
+                                        // 3. Truncate to 100 characters
+                                        $excerpt = (mb_strlen($clean_text) > 100) ? mb_substr($clean_text, 0, 100) . '...' : $clean_text;
+                                        
+                                        // 4. Output safely
+                                        echo htmlspecialchars($excerpt);
                                     ?>
                                 </p>
                             </div>
@@ -125,7 +134,6 @@ $result = mysqli_stmt_get_result($stmt);
 
         <?php mysqli_stmt_close($stmt); ?>
 
-        
     </main>
     <?php include 'includes/footer.php'; ?>
 
